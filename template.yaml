@@ -1,0 +1,62 @@
+# This file creates:
+#   1. A Lambda function
+#   2. A URL (API Gateway)
+#   3. Permission to call Bedrock
+#
+# To deploy: run "sam deploy --guided"
+# It will ask you to enter GitHubWebhookSecret and GitHubToken.
+
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Parameters:
+  GitHubWebhookSecret:
+    Type: String
+    NoEcho: true
+  GitHubToken:
+    Type: String
+    NoEcho: true
+  BedrockModelId:
+    Type: String
+    Default: anthropic.claude-3-5-sonnet-20241022-v2:0
+
+Resources:
+
+  # The Lambda function that runs src/handler.py
+  ReviewBotFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      # The file and function to run when the Lambda is ran
+      Handler: handler.lambda_handler
+      CodeUri: src/
+      Runtime: python3.12
+      Timeout: 30
+
+      # The environment variables that the Lambda can read
+      Environment:
+        Variables:
+          GITHUB_WEBHOOK_SECRET: !Ref GitHubWebhookSecret
+          GITHUB_TOKEN: !Ref GitHubToken
+          BEDROCK_MODEL_ID: !Ref BedrockModelId
+
+      # What this Lambda is allowed to do
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - Statement:
+            # Allow the Lambda to call Bedrock
+            - Effect: Allow
+              Action: bedrock:InvokeModel
+              Resource: "*"
+
+      # Creates the webhook URL automatically
+      Events:
+        Webhook:
+          Type: Api
+          Properties:
+            Path: /webhook
+            Method: post
+
+# Prints the webhook URL after deploying
+Outputs:
+  WebhookUrl:
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/webhook"

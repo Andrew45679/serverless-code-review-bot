@@ -4,7 +4,6 @@ version = 0.1
 stack_name = "ai-code-review-bot"
 resolve_s3 = true
 s3_prefix = "ai-code-review-bot"
-region = "us-east-1"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM"
 parameter_overrides = "BedrockModelId=\"anthropic.claude-3-5-sonnet-20241022-v2:0\""

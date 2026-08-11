@@ -5,6 +5,7 @@ Bedrock, and returns the AI's review text.
 """
 import boto3
 import json
+import os
 from pathlib import Path
 
 def review_code(diff):
@@ -12,7 +13,7 @@ def review_code(diff):
     client = boto3.client("bedrock-runtime")
 
     # For getting the prompt path in the project
-    PROMPT_PATH = Path(__file__).resolve().parent.parent / "prompts" / "review_prompt.txt"
+    PROMPT_PATH = Path(__file__).resolve().parent / "prompts" / "review_prompt.txt"
 
     # Load the prompt template and fill in the diff
     with open(PROMPT_PATH, 'r', encoding='utf-8') as file:
@@ -24,7 +25,7 @@ def review_code(diff):
 
     # Send the request to Bedrock
     response = client.invoke_model(
-        modelId="anthropic.claude-3-5-sonnet-20241022-v2:0",
+        modelId=os.environ.get("BEDROCK_MODEL_ID", "us.anthropic.claude-haiku-4-5-20251001-v1:0"),
         body=json.dumps(ai_input),
         contentType="application/json",
         accept="application/json"

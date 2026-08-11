@@ -18,7 +18,7 @@ Parameters:
     NoEcho: true
   BedrockModelId:
     Type: String
-    Default: anthropic.claude-3-5-sonnet-20241022-v2:0
+    Default: us.anthropic.claude-haiku-4-5-20251001-v1:0
 
 Resources:
 
@@ -29,7 +29,7 @@ Resources:
       # The file and function to run when the Lambda is ran
       Handler: handler.lambda_handler
       CodeUri: src/
-      Runtime: python3.12
+      Runtime: python3.14
       Timeout: 30
 
       # The environment variables that the Lambda can read

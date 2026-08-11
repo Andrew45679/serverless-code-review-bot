@@ -6,7 +6,7 @@ resolve_s3 = true
 s3_prefix = "ai-code-review-bot"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM"
-parameter_overrides = "BedrockModelId=\"anthropic.claude-3-5-sonnet-20241022-v2:0\""
+parameter_overrides = "BedrockModelId=\"us.anthropic.claude-haiku-4-5-20251001-v1:0\""
 image_repositories = []
 
 [default.global.parameters]

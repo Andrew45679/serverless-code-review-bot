@@ -12,6 +12,7 @@ A serverless bot that automatically reviews GitHub pull requests using Claude on
 - Fully serverless — API Gateway + Lambda, no servers to manage
 
 ## File Structure
+```
 serverless-code-review-bot/
 ┌── src/
 │   ├── prompts/
@@ -28,7 +29,7 @@ serverless-code-review-bot/
 ├── LICENSE
 ├── README.md 
 └── template.yaml                # SAM/CloudFormation template — defines the Lambda, API Gateway, IAM policy
-
+```
 
 ## Installation
 
@@ -53,17 +54,13 @@ bug, unguarded division by zero, and missing error handling).
 
 ![Example AI code review](docs/example_review.png)
 
-The bot correctly identified every planted issue, plus one it wasn't told 
-about — a call to a function (`execute_query`) that was never defined.
+The bot correctly identified every planted issue
 
 ## Future Work
+- Give the AI full repo context (not just the diff) so it can catch cross-file issues 
 - Add retry logic around the Bedrock call in case of throttling
-- Tune `review_prompt.txt` for the team's specific priorities (security, style, performance, etc.)
-- Skip auto-generated files, lockfiles, and test fixtures in the diff sent to Claude
+- Expand `review_prompt.txt` to reflect the team's specific priorities (security, style, performance, etc.)
 - Post inline review comments on specific lines instead of one summary comment
-- Narrow the Bedrock IAM policy from `Resource: "*"` to the specific inference profile ARN in use
-- Move secrets to AWS Secrets Manager instead of CloudFormation parameters
-- Add structured logging and a CloudWatch alarm on Lambda error rate
 - Support a per-repo config file (`.review-bot.yml`) to customize what the bot checks for
 
 ## Technologies Used

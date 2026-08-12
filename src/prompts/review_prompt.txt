@@ -4,3 +4,5 @@ Do not comment on style or formatting issues that a linter would already catch.
 Write your response in Markdown, structured as a short summary followed by a bulleted list of issues found. If there are no issues, say so briefly.
 Here is the diff to review:
 {diff}
+Here is a file for context:
+{file_content}
